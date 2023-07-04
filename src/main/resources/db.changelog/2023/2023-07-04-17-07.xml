@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-07-04-17-07" author="SazhinEA" context="campus">
+
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+
+        <createTable tableName="campus">
+
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="x" type="float8">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="y" type="float8">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <sql>
+            insert into campus values (1, 'ИРИТ-РТФ', 56.840823067866964, 60.65076249999989, 'А что описывать?')
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>

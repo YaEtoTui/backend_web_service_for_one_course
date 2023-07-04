@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-07-05-00-10" author="SazhinEA" context="campus">
+
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+
+        <createTable tableName="coordinates">
+
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="x" type="float8">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="y" type="float8">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="cabinet_id" type="bigint">
+                <constraints foreignKeyName="coordinates_cabinet_fk"
+                             referencedTableName="cabinet"
+                             referencedColumnNames="id"/>
+            </column>
+
+        </createTable>
+
+        <sql>
+            insert into coordinates values(3, 0.1, 0.1, 2)
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>
