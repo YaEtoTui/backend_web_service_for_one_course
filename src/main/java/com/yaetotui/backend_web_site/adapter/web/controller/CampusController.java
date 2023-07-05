@@ -3,7 +3,6 @@ package com.yaetotui.backend_web_site.adapter.web.controller;
 import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
 import com.yaetotui.backend_web_site.service.CampusService;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +22,6 @@ public class CampusController {
     @GetMapping("/{nameCampus}")
     public ResponseEntity<CampusResponse> searchCampus(@PathVariable("nameCampus") String nameCampus) {
         return ResponseEntity.ok()
-                .body(campusService.searchCampus(nameCampus));
+                .body(campusService.searchCampus(nameCampus.toUpperCase()));
     }
 }

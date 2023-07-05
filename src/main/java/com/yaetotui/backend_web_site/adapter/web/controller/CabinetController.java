@@ -15,9 +15,9 @@ public class CabinetController {
 
     CabinetService cabinetService;
 
-    @GetMapping("/{number}")
-    public ResponseEntity<?> searchCabinet(@PathVariable("number") String number ) {
+    @GetMapping("/cabinet")
+    public ResponseEntity<?> searchCabinet(@RequestParam("numberCabinet") String number ) {
         return ResponseEntity.ok()
-                .body(cabinetService.searchCabinet(number));
+                .body(cabinetService.searchCabinet(number.toLowerCase()));
     }
 }
