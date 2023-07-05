@@ -28,7 +28,8 @@
         </createTable>
 
         <sql>
-            insert into cabinet values(2, 217, 1)
+            insert into cabinet values(2, 1, 1),
+                                      (7, 2, 1)
         </sql>
 
     </changeSet>

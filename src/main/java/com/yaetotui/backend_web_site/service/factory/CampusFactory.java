@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,8 @@ public class CampusFactory {
                         .collect(Collectors.toList())
         );
     }
-     private Vector createListVector(Coordinates coordinates) {
-        return new Vector(
+     private Point createListVector(Coordinates coordinates) {
+        return new Point(
                 coordinates.getX(),
                 coordinates.getY()
         );

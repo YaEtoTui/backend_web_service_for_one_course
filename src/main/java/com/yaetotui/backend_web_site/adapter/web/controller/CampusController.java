@@ -3,6 +3,7 @@ package com.yaetotui.backend_web_site.adapter.web.controller;
 import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
 import com.yaetotui.backend_web_site.service.CampusService;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;

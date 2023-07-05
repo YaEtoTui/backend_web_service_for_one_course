@@ -15,11 +15,11 @@
                 <constraints primaryKey="true"/>
             </column>
 
-            <column name="x" type="float8">
+            <column name="x" type="int4">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="y" type="float8">
+            <column name="y" type="int4">
                 <constraints nullable="false"/>
             </column>
 
@@ -32,7 +32,19 @@
         </createTable>
 
         <sql>
-            insert into coordinates values(3, 0.1, 0.1, 2)
+            insert into coordinates values(3, 1000, 2000, 2),
+                                          (4, 1000, 1800, 2),
+                                          (5, 1400, 1800, 2),
+                                          (6, 1600, 1800, 2),
+                                          (8, 1600, 1400, 2),
+                                          (9, 1610, 1400, 2),
+
+                                          (10, 1000, 2000, 7),
+                                          (11, 1000, 1800, 7),
+                                          (12, 1400, 1800, 7),
+                                          (13, 1600, 1800, 7),
+                                          (14, 1600, 1400, 7),
+                                          (15, 1610, 1400, 7)
         </sql>
 
     </changeSet>

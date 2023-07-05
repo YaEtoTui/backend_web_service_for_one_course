@@ -16,8 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "coordinates")
 public class Coordinates extends BaseDomainEntity {
-    float x;
-    float y;
+    Integer x;
+    Integer y;
 
     @ManyToOne()
     @JoinColumn(name = "cabinet_id")

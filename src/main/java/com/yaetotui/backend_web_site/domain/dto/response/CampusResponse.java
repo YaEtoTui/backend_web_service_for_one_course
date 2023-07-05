@@ -3,6 +3,7 @@ package com.yaetotui.backend_web_site.domain.dto.response;
 import com.yaetotui.backend_web_site.domain.Vector;
 import lombok.Value;
 
+import java.awt.*;
 import java.util.List;
 
 
@@ -12,11 +13,11 @@ public class CampusResponse {
     String campusName;
     Vector address;
     String description;
-    List<CabinetInfo> cabinet;
+    List<CabinetInfo> cabinets;
 
     @Value
     public static class CabinetInfo {
         Integer number;
-        List<Vector> vector;
+        List<Point> vectors;
     }
 }
