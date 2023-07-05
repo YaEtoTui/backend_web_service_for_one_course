@@ -24,8 +24,7 @@ http://localhost:8080
 # CampusResponse
 
 ```py
-[
-  {
+{
     "campusID": 1,
     "campusName": "ИРИТ-РТФ",
     "address": {
@@ -33,17 +32,33 @@ http://localhost:8080
         "y": 60.65076
     },
     "description": "А что описывать?",
-    "cabinet": [
+    "cabinets": [
         {
             "number": 217,
-            "vector": [
+            "vectors": [
                 {
-                    "x": 0.1,
-                    "y": 0.1
+                    "x": 3.0,
+                    "y": 4.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 1.0
+                }
+            ]
+        },
+        {
+            "number": 243,
+            "vectors": [
+                {
+                    "x": 0.0,
+                    "y": 3.0
                 }
             ]
         }
     ]
 }
-]
 ```
