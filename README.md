@@ -95,3 +95,9 @@ http://localhost:8080
     ]
 }
 ```
+
+# CabinetResponse
+
+```py
+
+```
