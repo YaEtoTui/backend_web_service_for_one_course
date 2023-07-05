@@ -6,6 +6,7 @@ http://localhost:8080
 | API | Описание | Текст ответа |
 | --- | -------- | ------------ |
 | GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
+| GET /api/campus/cabinets/cabinet?numberCabinet= | Поиск номера кабинета | CabinetResponse |
 
 Пока nameCampus есть только "ИРИТ-РТФ"
 
