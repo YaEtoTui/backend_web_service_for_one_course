@@ -6,7 +6,7 @@ http://localhost:8080
 | API | Описание | Текст ответа |
 | --- | -------- | ------------ |
 | GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
-| GET /api/campus/cabinets/cabinet?numberCabinet= | Поиск номера кабинета | CabinetResponse |
+| GET /api/campus/cabinets/cabinet?numberCabinet=р-1 | Поиск номера кабинета | CabinetResponse |
 
 Пока nameCampus есть только "ИРИТ-РТФ"
 
@@ -99,5 +99,33 @@ http://localhost:8080
 # CabinetResponse
 
 ```py
-
+{
+    "number": 1,
+    "vectors": [
+        {
+            "x": 1004.0,
+            "y": 2000.0
+        },
+        {
+            "x": 1004.0,
+            "y": 1828.0
+        },
+        {
+            "x": 1544.0,
+            "y": 1828.0
+        },
+        {
+            "x": 1650.0,
+            "y": 1828.0
+        },
+        {
+            "x": 1650.0,
+            "y": 1398.0
+        },
+        {
+            "x": 1774.0,
+            "y": 1398.0
+        }
+    ]
+}
 ```
