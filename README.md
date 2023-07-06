@@ -6,9 +6,10 @@ http://localhost:8080
 | API | Описание | Текст ответа |
 | --- | -------- | ------------ |
 | GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
-| GET /api/campus/cabinets/cabinet?numberCabinet=р-1 | Поиск номера кабинета | CabinetResponse |
+| GET /api/campus/cabinets/list?value= | Поиск списка кабинетов по значению | List<CabinetResponse> |
+| GET /api/campus/cabinets/cabinet?numberID=Р-243 | Поиск кабинета вместе с кампусом, в котором он находится | CampusResponse |
 
-Пока nameCampus есть только "ИРИТ-РТФ"
+Пока nameCampus есть только "irit"
 
 БД -> PostgreSQL:
   name: web_service_one_course
@@ -25,107 +26,27 @@ http://localhost:8080
 # CampusResponse
 
 ```py
-{
-    "campusID": 1,
-    "campusName": "ИРИТ-РТФ",
-    "address": {
-        "x": 56.840824,
-        "y": 60.65076
-    },
-    "description": "Вход в кампус со стороны улицы Мира 32. Необходим студенческий и пропуск",
-    "cabinets": [
-        {
-            "number": 1,
-            "vectors": [
-                {
-                    "x": 1004.0,
-                    "y": 2000.0
-                },
-                {
-                    "x": 1004.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1544.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1650.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1650.0,
-                    "y": 1398.0
-                },
-                {
-                    "x": 1774.0,
-                    "y": 1398.0
-                }
-            ]
-        },
-        {
-            "number": 2,
-            "vectors": [
-                {
-                    "x": 1004.0,
-                    "y": 2000.0
-                },
-                {
-                    "x": 1004.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1544.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1650.0,
-                    "y": 1828.0
-                },
-                {
-                    "x": 1650.0,
-                    "y": 1190.0
-                },
-                {
-                    "x": 1774.0,
-                    "y": 1190.0
-                }
-            ]
-        }
-    ]
+public class CampusResponse {
+    String campusID;
+    String campusName;
+    Vector addressCampus;
+    String descriptionCampus;
+    List<CabinetInfo> cabinets;
+
+    @Value
+    public static class CabinetInfo {
+        String numberCabinet;
+        Long floor;
+        List<Point> vectors;
+    }
 }
 ```
 
 # CabinetResponse
 
 ```py
-{
-    "number": 1,
-    "vectors": [
-        {
-            "x": 1004.0,
-            "y": 2000.0
-        },
-        {
-            "x": 1004.0,
-            "y": 1828.0
-        },
-        {
-            "x": 1544.0,
-            "y": 1828.0
-        },
-        {
-            "x": 1650.0,
-            "y": 1828.0
-        },
-        {
-            "x": 1650.0,
-            "y": 1398.0
-        },
-        {
-            "x": 1774.0,
-            "y": 1398.0
-        }
-    ]
+public class CabinetResponse {
+    Long id;
+    String numberCabinet;
 }
 ```
