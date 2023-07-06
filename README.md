@@ -6,7 +6,7 @@ http://localhost:8080
 | API | Описание | Текст ответа |
 | --- | -------- | ------------ |
 | GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
-| GET /api/campus/cabinets/list?value= | Поиск списка кабинетов по значению | List<CabinetResponse> |
+| GET /api/campus/cabinets/list?value= | Поиск списка кабинетов по значению | List of CabinetResponse |
 | GET /api/campus/cabinets/cabinet?numberID=Р-243 | Поиск кабинета вместе с кампусом, в котором он находится | CampusAndCabinetResponse |
 
 Пока nameCampus есть только "irit"
