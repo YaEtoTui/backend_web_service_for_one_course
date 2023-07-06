@@ -29,22 +29,36 @@
                              referencedColumnNames="id"/>
             </column>
 
+            <column name="coordinates_parent_id" type="bigint">
+                <constraints foreignKeyName="coordinates_parent_fk"
+                             referencedTableName="coordinates"
+                             referencedColumnNames="id"
+                             nullable="true"/>
+            </column>
+
         </createTable>
 
         <sql>
-            insert into coordinates values(3, 1004, 2000, 2),
-                                          (4, 1004, 1828, 2),
-                                          (5, 1544, 1828, 2),
-                                          (6, 1650, 1828, 2),
-                                          (8, 1650, 1398, 2),
-                                          (9, 1774, 1398, 2),
+            insert into coordinates values(1, 1004, 2000, 2, null),
+                                          (2, 1004, 1828, 2, 1),
+                                          (3, 1544, 1828, 2, 2),
+                                          (4, 1650, 1828, 2, 3),
+                                          (5, 1650, 1398, 2, 4),
+                                          (6, 1774, 1398, 2, 5),
 
-                                          (10, 1004, 2000, 7),
-                                          (11, 1004, 1828, 7),
-                                          (12, 1544, 1828, 7),
-                                          (13, 1650, 1828, 7),
-                                          (14, 1650, 1190, 7),
-                                          (15, 1774, 1190, 7)
+                                          (7, 1004, 2000, 1, null),
+                                          (8, 1004, 1828, 1, 7),
+                                          (9, 1544, 1828, 1, 8),
+                                          (10, 1650, 1828, 1, 9),
+                                          (11, 1650, 1190, 1, 10),
+                                          (12, 1774, 1190, 1, 11),
+
+                                          (13, 1004, 2000, 3, null),
+                                          (14, 1004, 1828, 3, 13),
+                                          (15, 1544, 1828, 3, 14),
+                                          (16, 1650, 1828, 3, 15),
+                                          (17, 1650, 1190, 3, 16),
+                                          (18, 1774, 1190, 3, 17)
         </sql>
 
     </changeSet>

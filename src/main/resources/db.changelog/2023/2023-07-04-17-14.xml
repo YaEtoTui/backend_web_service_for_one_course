@@ -15,11 +15,15 @@
                 <constraints primaryKey="true"/>
             </column>
 
-            <column name="number" type="int4">
+            <column name="number" type="varchar">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="campus_id" type="bigint">
+            <column name="floor" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="campus_id" type="varchar">
                 <constraints foreignKeyName="cabinet_campus_fk"
                              referencedTableName="campus"
                              referencedColumnNames="id"/>
@@ -28,8 +32,9 @@
         </createTable>
 
         <sql>
-            insert into cabinet values(2, 1, 1),
-                                      (7, 2, 1)
+            insert into cabinet values(1, 243, 2, 'irit'),
+                                      (2, 117, 1, 'irit'),
+                                      (3, 245, 2, 'irit')
         </sql>
 
     </changeSet>

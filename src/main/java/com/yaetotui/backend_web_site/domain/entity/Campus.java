@@ -12,8 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "campus")
-public class Campus extends BaseDomainEntity {
+public class Campus {
+
+    @Id
+    String id;
     String name;
+    char symbol;
     float x;
     float y;
     String description;

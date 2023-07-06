@@ -16,7 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "cabinet")
 public class Cabinet extends BaseDomainEntity {
-    Integer number;
+
+
+    String number;
+
+    Long floor;
 
     @OneToMany(mappedBy = "cabinet", fetch = FetchType.LAZY)
     List<Coordinates> coordinates = new LinkedList<>();

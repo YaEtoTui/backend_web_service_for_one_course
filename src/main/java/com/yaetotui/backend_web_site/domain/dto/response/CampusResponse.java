@@ -9,7 +9,7 @@ import java.util.List;
 
 @Value
 public class CampusResponse {
-    Long campusID;
+    String campusID;
     String campusName;
     Vector address;
     String description;
@@ -17,7 +17,8 @@ public class CampusResponse {
 
     @Value
     public static class CabinetInfo {
-        Integer number;
+        String number;
+        Long floor;
         List<Point> vectors;
     }
 }

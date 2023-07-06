@@ -27,26 +27,28 @@ public class CampusFactory {
 
     public CampusResponse createCampusResponse(String nameCampus) {
 
-        Campus campus = campusRepository.findAllByName(nameCampus);
-
-        if (campus == null) {
-            throw new NotFoundCampusException("Не правильно веден кампус!");
-        }
-
-        return new CampusResponse(
-                campus.getId(),
-                campus.getName(),
-                new Vector(campus.getX(), campus.getY()),
-                campus.getDescription(),
-                campus.getCabinets().stream()
-                        .map(this::createCabinetInfo)
-                        .collect(Collectors.toList())
-        );
+//        Campus campus = campusRepository.findAllByName(nameCampus);
+//
+//        if (campus == null) {
+//            throw new NotFoundCampusException("Не правильно веден кампус!");
+//        }
+//
+//        return new CampusResponse(
+//                campus.getId(),
+//                campus.getName(),
+//                new Vector(campus.getX(), campus.getY()),
+//                campus.getDescription(),
+//                campus.getCabinets().stream()
+//                        .map(this::createCabinetInfo)
+//                        .collect(Collectors.toList())
+//        );
+        return null;
     }
 
     private CampusResponse.CabinetInfo createCabinetInfo(Cabinet cabinet) {
         return new CampusResponse.CabinetInfo(
                 cabinet.getNumber(),
+                cabinet.getFloor(),
                 cabinet.getCoordinates().stream()
                         .map(this::createListVector)
                         .collect(Collectors.toList())
