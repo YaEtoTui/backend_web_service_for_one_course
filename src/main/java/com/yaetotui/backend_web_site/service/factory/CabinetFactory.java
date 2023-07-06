@@ -3,6 +3,7 @@ package com.yaetotui.backend_web_site.service.factory;
 import com.yaetotui.backend_web_site.adapter.repository.CabinetRepository;
 import com.yaetotui.backend_web_site.adapter.repository.CoordinatesRepository;
 import com.yaetotui.backend_web_site.common.exception.NotFoundCabinetException;
+import com.yaetotui.backend_web_site.common.exception.NotFoundCoordinatesException;
 import com.yaetotui.backend_web_site.domain.Vector;
 import com.yaetotui.backend_web_site.domain.dto.response.CabinetResponse;
 import com.yaetotui.backend_web_site.domain.dto.response.CampusAndCabinetResponse;
@@ -111,32 +112,29 @@ public class CabinetFactory {
     /* Метод, который ищет список координат до нужного кабинета */
 
     private List<List<Coordinates>> searchPathToCabinet(Cabinet cabinet) {
-        List<Coordinates> coordinatesList = coordinatesRepository.findAll();
 
-        List<Coordinates> listPath = new LinkedList<>();
-        for(Coordinates coordinates : coordinatesList) {
-            if ((coordinates.getX().equals(cabinet.getX())) && (coordinates.getY().equals(cabinet.getY()))) {
-                while(coordinates != null) {
-                    listPath.add(coordinates);
-                    coordinates = coordinates.getCoordinates();
-                }
-                break;
-            }
+        Coordinates coordinates = coordinatesRepository.findCoordinatesByXAndYAndFloor(cabinet.getX(), cabinet.getY(), cabinet.getFloor());
+
+        if (coordinates == null) {
+            throw new NotFoundCoordinatesException(
+                    String.format("Не найдены координаты x: %s y: %s на этаже %s", cabinet.getX(), cabinet.getY(), cabinet.getFloor())
+            );
         }
 
-        Collections.reverse(listPath);
+        List<Coordinates> listPath = new LinkedList<>();
+        while(coordinates != null) {
+            listPath.add(coordinates);
+            coordinates = coordinates.getCoordinates();
+        }
+
+        Collections.reverse(listPath); //меняем местами координаты
 
         List<List<Coordinates>> listXCoordinates = new LinkedList<>();
         for (int i = 0; i < cabinet.getFloor(); i++) {
             listXCoordinates.add(new LinkedList<>());
         }
 
-        System.out.println(listXCoordinates.size());
-
-        for (Coordinates coordinates : listPath) {
-            listXCoordinates.get(coordinates.getFloor() - 1).add(coordinates);
-            System.out.println(coordinates.getFloor() + " " + coordinates.getX());
-        }
+        listPath.forEach(obj -> listXCoordinates.get(obj.getFloor() - 1).add(obj)); //заполняем координаты по этажам
 
         return listXCoordinates;
     }
