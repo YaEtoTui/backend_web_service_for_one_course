@@ -102,7 +102,7 @@ public class CabinetFactory {
 
     /* Создаем точку */
 
-    private Point createPoint(Coordinates coordinates) {
+    public Point createPoint(Coordinates coordinates) {
         return new Point(
                 coordinates.getX(),
                 coordinates.getY()
@@ -134,7 +134,8 @@ public class CabinetFactory {
             listXCoordinates.add(new LinkedList<>());
         }
 
-        listPath.forEach(obj -> listXCoordinates.get(obj.getFloor() - 1).add(obj)); //заполняем координаты по этажам
+
+        listPath.forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath)); //заполняем координаты по этажам
 
         return listXCoordinates;
     }
