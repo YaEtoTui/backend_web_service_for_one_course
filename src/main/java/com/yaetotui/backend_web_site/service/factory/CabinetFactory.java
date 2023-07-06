@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class CabinetFactory {
+
+    @NonFinal
+    Integer CountFloors;
 
     CabinetRepository cabinetRepository;
     CoordinatesRepository coordinatesRepository;
@@ -75,9 +79,20 @@ public class CabinetFactory {
         );
     }
 
-    private CampusAndCabinetResponse.CabinetInfo createCabinetInfo(Cabinet cabinet, List<Coordinates> coordinatesList) {
+    private CampusAndCabinetResponse.CabinetInfo createCabinetInfo(Cabinet cabinet, List<List<Coordinates>> coordinatesList) {
+        CountFloors = 0;
         return new CampusAndCabinetResponse.CabinetInfo(
                 cabinet.getNumber(),
+                coordinatesList.stream()
+                        .map(this::createFloorsInfo)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(List<Coordinates> coordinatesList) {
+        CountFloors++;
+        return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(
+                CountFloors,
                 coordinatesList.stream()
                         .map(this::createPoint)
                         .collect(Collectors.toList())
@@ -95,7 +110,7 @@ public class CabinetFactory {
 
     /* Метод, который ищет список координат до нужного кабинета */
 
-    private List<Coordinates> searchPathToCabinet(Cabinet cabinet) {
+    private List<List<Coordinates>> searchPathToCabinet(Cabinet cabinet) {
         List<Coordinates> coordinatesList = coordinatesRepository.findAll();
 
         List<Coordinates> listPath = new LinkedList<>();
@@ -110,6 +125,19 @@ public class CabinetFactory {
         }
 
         Collections.reverse(listPath);
-        return listPath;
+
+        List<List<Coordinates>> listXCoordinates = new LinkedList<>();
+        for (int i = 0; i < cabinet.getFloor(); i++) {
+            listXCoordinates.add(new LinkedList<>());
+        }
+
+        System.out.println(listXCoordinates.size());
+
+        for (Coordinates coordinates : listPath) {
+            listXCoordinates.get(coordinates.getFloor() - 1).add(coordinates);
+            System.out.println(coordinates.getFloor() + " " + coordinates.getX());
+        }
+
+        return listXCoordinates;
     }
 }

@@ -18,6 +18,14 @@ public class CampusAndCabinetResponse {
     @Value
     public static class CabinetInfo {
         String numberCabinet;
-        List<Point> vectors;
+
+        List<FloorsInfo> floors;
+
+        @Value
+        public static class FloorsInfo {
+            Integer floor;
+            List<Point> vectors;
+        }
+
     }
 }
