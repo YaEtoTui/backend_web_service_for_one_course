@@ -7,7 +7,7 @@ http://localhost:8080
 | --- | -------- | ------------ |
 | GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
 | GET /api/campus/cabinets/list?value= | Поиск списка кабинетов по значению | List<CabinetResponse> |
-| GET /api/campus/cabinets/cabinet?numberID=Р-243 | Поиск кабинета вместе с кампусом, в котором он находится | CampusResponse |
+| GET /api/campus/cabinets/cabinet?numberID=Р-243 | Поиск кабинета вместе с кампусом, в котором он находится | CampusAndCabinetResponse |
 
 Пока nameCampus есть только "irit"
 
@@ -23,21 +23,29 @@ http://localhost:8080
 ![изображение](https://github.com/YaEtoTui/backend_web_service_for_one_course/assets/102538132/d9e2a15c-e437-47a8-ab92-389bfc91c4f7)
 
 
-# CampusResponse
+# CampusAndCabinetResponse
 
 ```py
-public class CampusResponse {
+@Value
+public class CampusAndCabinetResponse {
     String campusID;
     String campusName;
     Vector addressCampus;
     String descriptionCampus;
-    List<CabinetInfo> cabinets;
+    CabinetInfo cabinet;
 
     @Value
     public static class CabinetInfo {
         String numberCabinet;
-        Long floor;
-        List<Point> vectors;
+
+        List<FloorsInfo> floors;
+
+        @Value
+        public static class FloorsInfo {
+            Integer floor;
+            List<Point> vectors;
+        }
+
     }
 }
 ```
@@ -45,8 +53,9 @@ public class CampusResponse {
 # CabinetResponse
 
 ```py
+@Value
 public class CabinetResponse {
     Long id;
     String numberCabinet;
-}
+
 ```
