@@ -21,9 +21,8 @@ public class CabinetServiceImpl implements CabinetService {
     CabinetFactory cabinetFactory;
 
     @Override
-    public CampusResponse searchCabinet(String number) {
-//        return null; cabinetFactory.createCabinetResponse(number);
-        return null;
+    public CampusResponse chooseCabinetInDB(Long numberID) {
+        return cabinetFactory.createCabinetResponseWithCampus(numberID);
     }
 
     @Override

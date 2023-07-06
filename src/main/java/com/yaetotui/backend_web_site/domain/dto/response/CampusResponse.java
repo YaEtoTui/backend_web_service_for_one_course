@@ -11,13 +11,13 @@ import java.util.List;
 public class CampusResponse {
     String campusID;
     String campusName;
-    Vector address;
-    String description;
+    Vector addressCampus;
+    String descriptionCampus;
     List<CabinetInfo> cabinets;
 
     @Value
     public static class CabinetInfo {
-        String number;
+        String numberCabinet;
         Long floor;
         List<Point> vectors;
     }

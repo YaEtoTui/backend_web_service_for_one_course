@@ -18,7 +18,7 @@ public class CampusServiceImpl implements CampusService {
     CampusFactory campusFactory;
 
     @Override
-    public CampusResponse searchCampus(String nameCampus) {
-        return campusFactory.createCampusResponse(nameCampus);
+    public CampusResponse searchCampus(String campusID) {
+        return campusFactory.createCampusResponse(campusID);
     }
 }

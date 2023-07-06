@@ -20,9 +20,9 @@ public class CabinetController {
     CabinetService cabinetService;
 
     @GetMapping("/cabinet")
-    public ResponseEntity<CampusResponse> searchCabinet(@RequestParam("numberCabinet") String number ) {
+    public ResponseEntity<CampusResponse> chooseCabinetInDB(@RequestParam("numberID") Long numberID ) {
         return ResponseEntity.ok()
-                .body(cabinetService.searchCabinet(number.toLowerCase()));
+                .body(cabinetService.chooseCabinetInDB(numberID));
     }
 
     @GetMapping("/list")

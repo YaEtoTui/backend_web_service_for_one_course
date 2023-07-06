@@ -1,9 +1,12 @@
 package com.yaetotui.backend_web_site.service.factory;
 
 import com.yaetotui.backend_web_site.adapter.repository.CabinetRepository;
+import com.yaetotui.backend_web_site.common.exception.NotFoundCabinetException;
+import com.yaetotui.backend_web_site.domain.Vector;
 import com.yaetotui.backend_web_site.domain.dto.response.CabinetResponse;
 import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
 import com.yaetotui.backend_web_site.domain.entity.Cabinet;
+import com.yaetotui.backend_web_site.domain.entity.Campus;
 import com.yaetotui.backend_web_site.domain.entity.Coordinates;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -12,8 +15,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -23,8 +26,9 @@ public class CabinetFactory {
 
     CabinetRepository cabinetRepository;
 
+    //Переделать
     public List<CabinetResponse> createListCabinetResponse(String value) {
-        List<Cabinet> cabinetList = new LinkedList<>();
+        List<Cabinet> cabinetList;
         if (value.startsWith("р-")) {
             cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.split("-")[1]);
         } else if (value.startsWith("р")) {
@@ -43,32 +47,43 @@ public class CabinetFactory {
     }
 
     public CabinetResponse createCabinetResponse(Cabinet cabinet) {
-        return new CabinetResponse(cabinet.getNumber());
+        return new CabinetResponse(
+                cabinet.getId(),
+                String.format("%s-%s",cabinet.getCampus().getSymbol(), cabinet.getNumber())
+        );
     }
 
-    public CampusResponse createCabinetResponsee(String numberCabinet) {
+    public CampusResponse createCabinetResponseWithCampus(Long numberID) {
 
-        //сюда доходит номера типа р-217, надо получить только число типа Integer
-//        if (!numberCabinet.startsWith("р-")) {
-//            throw new StartWrongCabinetException("Номер кабинета должен начинаться с символа, обозначающий кампус. Например, р-243");
-//        }
-//
-//        Cabinet cabinet = cabinetRepository.findCabinetByNumber(Integer.parseInt(numberCabinet.split("-")[1]));
-//
-//        if (cabinet == null) {
-//            throw new NotFoundCabinetException("Нет такого кабинета!");
-//        }
-//
-//        return new CabinetResponse(
-//                cabinet.getNumber(),
-//                cabinet.getCoordinates().stream()
-//                        .map(this::createListVector)
-//                        .collect(Collectors.toList())
-//        );
-        return null;
+        Cabinet cabinet = cabinetRepository.findById(numberID)
+                .orElseThrow(() -> new NotFoundCabinetException(
+                        String.format("Не правильно введен id Кабинета. Был: '%s'", numberID)
+                        )
+                );
+
+        return new CampusResponse(
+                cabinet.getCampus().getId(),
+                cabinet.getCampus().getName(),
+                new Vector(cabinet.getCampus().getX(), cabinet.getCampus().getY()),
+                cabinet.getCampus().getDescription(),
+                cabinet.getCampus().getCabinets().stream()
+                        .map(this::createCabinetInfo)
+                        .collect(Collectors.toList())
+
+        );
     }
 
-    private Point createListVector(Coordinates coordinates) {
+    private CampusResponse.CabinetInfo createCabinetInfo(Cabinet cabinet) {
+        return new CampusResponse.CabinetInfo(
+                cabinet.getNumber(),
+                cabinet.getFloor(),
+                cabinet.getCoordinates().stream()
+                        .map(this::createPoint)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    private Point createPoint(Coordinates coordinates) {
         return new Point(
                 coordinates.getX(),
                 coordinates.getY()

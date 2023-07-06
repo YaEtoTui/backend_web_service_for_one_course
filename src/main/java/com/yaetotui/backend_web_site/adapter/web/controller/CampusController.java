@@ -20,8 +20,8 @@ public class CampusController {
     CampusService campusService;
 
     @GetMapping("/{nameCampus}")
-    public ResponseEntity<CampusResponse> searchCampus(@PathVariable("nameCampus") String nameCampus) {
+    public ResponseEntity<CampusResponse> searchCampus(@PathVariable("nameCampus") String campusID) {
         return ResponseEntity.ok()
-                .body(campusService.searchCampus(nameCampus.toUpperCase()));
+                .body(campusService.searchCampus(campusID.toLowerCase()));
     }
 }

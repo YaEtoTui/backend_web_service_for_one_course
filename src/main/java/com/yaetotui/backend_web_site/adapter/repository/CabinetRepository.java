@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CabinetRepository extends JpaRepository<Cabinet, Long> {
     List<Cabinet> findCabinetsByNumberContainingIgnoreCase(String value);
+
+    Cabinet findCabinetByNumber(String numberCabinet);
 }

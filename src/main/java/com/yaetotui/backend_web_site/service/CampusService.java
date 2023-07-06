@@ -4,5 +4,5 @@ import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
 
 public interface CampusService {
 
-    CampusResponse searchCampus(String nameCampus);
+    CampusResponse searchCampus(String campusID);
 }

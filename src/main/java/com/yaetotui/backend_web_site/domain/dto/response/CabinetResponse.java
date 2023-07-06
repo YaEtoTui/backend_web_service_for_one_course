@@ -4,5 +4,6 @@ import lombok.Value;
 
 @Value
 public class CabinetResponse {
-    String number;
+    Long id;
+    String numberCabinet;
 }

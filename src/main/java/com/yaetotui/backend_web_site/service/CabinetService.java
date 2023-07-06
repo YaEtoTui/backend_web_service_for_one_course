@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CabinetService {
 
-    CampusResponse searchCabinet(String number);
+    CampusResponse chooseCabinetInDB(Long numberID);
 
     List<CabinetResponse> searchListCabinets(String value);
 }

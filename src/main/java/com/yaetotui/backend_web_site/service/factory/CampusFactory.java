@@ -25,24 +25,22 @@ public class CampusFactory {
 
     CampusRepository campusRepository;
 
-    public CampusResponse createCampusResponse(String nameCampus) {
+    public CampusResponse createCampusResponse(String campusID) {
 
-//        Campus campus = campusRepository.findAllByName(nameCampus);
-//
-//        if (campus == null) {
-//            throw new NotFoundCampusException("Не правильно веден кампус!");
-//        }
-//
-//        return new CampusResponse(
-//                campus.getId(),
-//                campus.getName(),
-//                new Vector(campus.getX(), campus.getY()),
-//                campus.getDescription(),
-//                campus.getCabinets().stream()
-//                        .map(this::createCabinetInfo)
-//                        .collect(Collectors.toList())
-//        );
-        return null;
+        Campus campus = campusRepository.findById(campusID)
+                .orElseThrow(() -> new NotFoundCampusException(
+                        String.format("Не правильно веден кампус с id '%s'!", campusID)
+                ));
+
+        return new CampusResponse(
+                campus.getId(),
+                campus.getName(),
+                new Vector(campus.getX(), campus.getY()),
+                campus.getDescription(),
+                campus.getCabinets().stream()
+                        .map(this::createCabinetInfo)
+                        .collect(Collectors.toList())
+        );
     }
 
     private CampusResponse.CabinetInfo createCabinetInfo(Cabinet cabinet) {
@@ -50,11 +48,12 @@ public class CampusFactory {
                 cabinet.getNumber(),
                 cabinet.getFloor(),
                 cabinet.getCoordinates().stream()
-                        .map(this::createListVector)
+                        .map(this::createPoint)
                         .collect(Collectors.toList())
         );
     }
-     private Point createListVector(Coordinates coordinates) {
+
+     private Point createPoint(Coordinates coordinates) {
         return new Point(
                 coordinates.getX(),
                 coordinates.getY()
