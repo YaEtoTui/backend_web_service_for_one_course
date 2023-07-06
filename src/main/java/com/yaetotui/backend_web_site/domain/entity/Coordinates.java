@@ -16,10 +16,6 @@ public class Coordinates extends BaseDomainEntity {
     Integer x;
     Integer y;
 
-    @ManyToOne()
-    @JoinColumn(name = "cabinet_id")
-    Cabinet cabinet;
-
     @OneToOne()
     @JoinColumn(name = "coordinates_parent_id")
     Coordinates coordinates;

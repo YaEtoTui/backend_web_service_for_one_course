@@ -17,13 +17,11 @@ import java.util.List;
 @Table(name = "cabinet")
 public class Cabinet extends BaseDomainEntity {
 
-
     String number;
-
     Long floor;
 
-    @OneToMany(mappedBy = "cabinet", fetch = FetchType.LAZY)
-    List<Coordinates> coordinates = new LinkedList<>();
+    Integer x;
+    Integer y;
 
     @ManyToOne()
     @JoinColumn(name = "campus_id")

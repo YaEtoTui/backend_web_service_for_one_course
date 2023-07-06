@@ -8,17 +8,16 @@ import java.util.List;
 
 
 @Value
-public class CampusResponse {
+public class CampusAndCabinetResponse {
     String campusID;
     String campusName;
     Vector addressCampus;
     String descriptionCampus;
-    List<CabinetInfo> cabinets;
+    CabinetInfo cabinet;
 
     @Value
     public static class CabinetInfo {
         String numberCabinet;
-        Long floor;
         List<Point> vectors;
     }
 }

@@ -1,7 +1,7 @@
 package com.yaetotui.backend_web_site.service.impl;
 
 import com.yaetotui.backend_web_site.domain.dto.response.CabinetResponse;
-import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
+import com.yaetotui.backend_web_site.domain.dto.response.CampusAndCabinetResponse;
 import com.yaetotui.backend_web_site.service.CabinetService;
 import com.yaetotui.backend_web_site.service.factory.CabinetFactory;
 import jakarta.transaction.Transactional;
@@ -21,7 +21,7 @@ public class CabinetServiceImpl implements CabinetService {
     CabinetFactory cabinetFactory;
 
     @Override
-    public CampusResponse chooseCabinetInDB(Long numberID) {
+    public CampusAndCabinetResponse chooseCabinetInDB(Long numberID) {
         return cabinetFactory.createCabinetResponseWithCampus(numberID);
     }
 

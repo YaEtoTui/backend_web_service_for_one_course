@@ -1,6 +1,6 @@
 package com.yaetotui.backend_web_site.adapter.web.controller;
 
-import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
+import com.yaetotui.backend_web_site.domain.dto.response.CampusAndCabinetResponse;
 import com.yaetotui.backend_web_site.service.CampusService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CampusController {
     CampusService campusService;
 
     @GetMapping("/{nameCampus}")
-    public ResponseEntity<CampusResponse> searchCampus(@PathVariable("nameCampus") String campusID) {
+    public ResponseEntity<CampusAndCabinetResponse> searchCampus(@PathVariable("nameCampus") String campusID) {
         return ResponseEntity.ok()
                 .body(campusService.searchCampus(campusID.toLowerCase()));
     }

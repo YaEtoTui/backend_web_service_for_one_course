@@ -1,7 +1,7 @@
 package com.yaetotui.backend_web_site.adapter.web.controller;
 
 import com.yaetotui.backend_web_site.domain.dto.response.CabinetResponse;
-import com.yaetotui.backend_web_site.domain.dto.response.CampusResponse;
+import com.yaetotui.backend_web_site.domain.dto.response.CampusAndCabinetResponse;
 import com.yaetotui.backend_web_site.service.CabinetService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CabinetController {
     CabinetService cabinetService;
 
     @GetMapping("/cabinet")
-    public ResponseEntity<CampusResponse> chooseCabinetInDB(@RequestParam("numberID") Long numberID ) {
+    public ResponseEntity<CampusAndCabinetResponse> chooseCabinetInDB(@RequestParam("numberID") Long numberID ) {
         return ResponseEntity.ok()
                 .body(cabinetService.chooseCabinetInDB(numberID));
     }
