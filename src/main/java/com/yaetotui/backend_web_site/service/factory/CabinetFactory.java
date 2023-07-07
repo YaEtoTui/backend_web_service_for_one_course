@@ -41,7 +41,7 @@ public class CabinetFactory {
 
         List<Cabinet> cabinetList;
         if (value.startsWith("р-")) {
-            cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.split("-")[1]);
+            cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.substring(2));
         } else if (value.startsWith("р")) {
             System.out.println(value.substring(1));
             cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.substring(1));

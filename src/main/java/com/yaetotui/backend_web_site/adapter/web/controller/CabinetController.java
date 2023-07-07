@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/campus/cabinets")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@CrossOrigin
 public class CabinetController {
 
     CabinetService cabinetService;
