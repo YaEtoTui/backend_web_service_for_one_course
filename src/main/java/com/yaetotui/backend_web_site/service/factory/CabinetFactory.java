@@ -38,6 +38,7 @@ public class CabinetFactory {
 
     //Переделать
     public List<CabinetResponse> createListCabinetResponse(String value) {
+
         List<Cabinet> cabinetList;
         if (value.startsWith("р-")) {
             cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.split("-")[1]);
@@ -49,11 +50,9 @@ public class CabinetFactory {
             cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value);
         }
 
-        List<CabinetResponse> cabinetResponseList = cabinetList.stream()
+        return cabinetList.stream()
                 .map(this::createCabinetResponse)
                 .toList();
-
-        return cabinetResponseList;
     }
 
     public CabinetResponse createCabinetResponse(Cabinet cabinet) {

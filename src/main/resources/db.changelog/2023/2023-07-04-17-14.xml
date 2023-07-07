@@ -40,7 +40,8 @@
         </createTable>
 
         <sql>
-            insert into cabinet values(1, 243, 2, 1732, 1172, 'irit')
+            insert into cabinet values(1, 243, 2, 1732, 1172, 'irit'),
+                                      (2, 117, 1, 1626, 903, 'irit')
         </sql>
 
     </changeSet>
