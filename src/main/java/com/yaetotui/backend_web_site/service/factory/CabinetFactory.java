@@ -17,11 +17,11 @@ import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -81,11 +81,14 @@ public class CabinetFactory {
     }
 
     private CampusAndCabinetResponse.CabinetInfo createCabinetInfo(Cabinet cabinet, List<List<Coordinates>> coordinatesList) {
-        CountFloors = 0;
-        List<String> listDescription = new ArrayList<>();
-        listDescription.add(cabinet.getDescriptionStep1());
-        listDescription.add(cabinet.getDescriptionStep2());
-        listDescription.add(cabinet.getDescriptionStep3());
+        CountFloors = 0; //init global variable
+        List<String> listDescription = Stream.of(
+                cabinet.getDescriptionStep1(),
+                cabinet.getDescriptionStep2(),
+                cabinet.getDescriptionStep3()
+                )
+                        .collect(Collectors.toList());
+
         return new CampusAndCabinetResponse.CabinetInfo(
                 cabinet.getNumber(),
                 cabinet.getDescription(),
