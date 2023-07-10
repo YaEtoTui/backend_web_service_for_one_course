@@ -5,7 +5,6 @@ http://localhost:8080
 
 | API | Описание | Текст ответа |
 | --- | -------- | ------------ |
-| GET /api/campus/{nameCampus} | Получение инфы по Кампусу | CampusResponse |
 | GET /api/campus/cabinets/list?value= | Поиск списка кабинетов по значению | List of CabinetResponse |
 | GET /api/campus/cabinets/cabinet?numberID= | Поиск кабинета вместе с кампусом, в котором он находится | CampusAndCabinetResponse |
 
@@ -38,12 +37,12 @@ public class CampusAndCabinetResponse {
     public static class CabinetInfo {
         String numberCabinet;
         String descriptionCabinet;
+        List<String> steps;
         List<FloorsInfo> floors;
 
         @Value
         public static class FloorsInfo {
             Integer floor;
-            String descriptionStep;
             List<Point> vectors;
         }
 
