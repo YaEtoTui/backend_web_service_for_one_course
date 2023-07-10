@@ -19,6 +19,10 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column name="description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+
             <column name="floor" type="int4">
                 <constraints nullable="false"/>
             </column>
@@ -37,11 +41,29 @@
                              referencedColumnNames="id"/>
             </column>
 
+            <column name="description_step1" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description_step2" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="description_step3" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+
         </createTable>
 
         <sql>
-            insert into cabinet values(1, 243, 2, 1732, 1172, 'irit'),
-                                      (2, 117, 1, 1626, 903, 'irit')
+            insert into cabinet values(1, 243, 'Аудитория Naumen', 2, 1732, 1172, 'irit',
+                                       'От входа повернуть направо, пройти через турникеты и подняться на 2 этаж.',
+                                       'Затем повернуть налево и идти прямо. Вторая дверь справа и вы дошли.',
+                                       null),
+                                      (2, '138а', 'Аудитория тьюторов ИРИТ-РТФ', 1, 1587, 1679, 'irit',
+                                       'От входа повернуть направо, пройти через турникеты и перед лестницей повернуть налево. Прямо перед вами будет кабинет.',
+                                       null,
+                                       null)
         </sql>
 
     </changeSet>

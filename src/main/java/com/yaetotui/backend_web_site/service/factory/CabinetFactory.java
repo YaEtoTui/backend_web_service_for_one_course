@@ -17,6 +17,7 @@ import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 public class CabinetFactory {
 
     @NonFinal
-    Integer CountFloors;
+    Integer CountFloors; /* Нужна глобальная переменная для перечисления этажей по порядку */
 
     CabinetRepository cabinetRepository;
     CoordinatesRepository coordinatesRepository;
@@ -38,7 +39,7 @@ public class CabinetFactory {
 
     //Переделать
     public List<CabinetResponse> createListCabinetResponse(String value) {
-
+//        List<String> symbolsCampus = new LinkedList<>("р");
         List<Cabinet> cabinetList;
         if (value.startsWith("р-")) {
             cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.substring(2));
@@ -81,18 +82,25 @@ public class CabinetFactory {
 
     private CampusAndCabinetResponse.CabinetInfo createCabinetInfo(Cabinet cabinet, List<List<Coordinates>> coordinatesList) {
         CountFloors = 0;
+        List<String> listDescription = new ArrayList<>();
+        listDescription.add(cabinet.getDescriptionStep1());
+        listDescription.add(cabinet.getDescriptionStep2());
+        listDescription.add(cabinet.getDescriptionStep3());
         return new CampusAndCabinetResponse.CabinetInfo(
                 cabinet.getNumber(),
+                cabinet.getDescription(),
                 coordinatesList.stream()
-                        .map(this::createFloorsInfo)
+                        .map(list -> createFloorsInfo(list, listDescription))
                         .collect(Collectors.toList())
         );
     }
 
-    private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(List<Coordinates> coordinatesList) {
+    private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(List<Coordinates> coordinatesList,
+                                                                             List<String> listDescription) {
         CountFloors++;
         return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(
                 CountFloors,
+                listDescription.get(CountFloors - 1),
                 coordinatesList.stream()
                         .map(this::createPoint)
                         .collect(Collectors.toList())
@@ -132,7 +140,6 @@ public class CabinetFactory {
         for (int i = 0; i < cabinet.getFloor(); i++) {
             listXCoordinates.add(new LinkedList<>());
         }
-
 
         listPath.forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath)); //заполняем координаты по этажам
 
