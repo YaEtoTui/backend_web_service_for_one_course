@@ -37,7 +37,7 @@ public class CabinetFactory {
     CoordinatesRepository coordinatesRepository;
 
     List<String> stringList = Stream
-            .of("р", "м", "ф")
+            .of("р", "м", "ф", "гук")
             .toList();
 
     /* Ищем список кабинетов, которые содержат входящий элемент*/
@@ -67,7 +67,7 @@ public class CabinetFactory {
     public CabinetResponse createCabinetResponse(Cabinet cabinet) {
         return new CabinetResponse(
                 cabinet.getId(),
-                String.format("%s-%s",cabinet.getCampus().getSymbol(), cabinet.getNumber())
+                String.format("%s-%s",cabinet.getCampus().getSymbol(), cabinet.getNumber().toLowerCase())
         );
     }
 
