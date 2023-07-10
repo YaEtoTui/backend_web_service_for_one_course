@@ -20,6 +20,7 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,20 +36,27 @@ public class CabinetFactory {
     CabinetRepository cabinetRepository;
     CoordinatesRepository coordinatesRepository;
 
+    List<String> stringList = Stream
+            .of("р", "м", "ф")
+            .toList();
+
     /* Ищем список кабинетов, которые содержат входящий элемент*/
 
-    //Переделать
     public List<CabinetResponse> createListCabinetResponse(String value) {
-//        List<String> symbolsCampus = new LinkedList<>("р");
-        List<Cabinet> cabinetList;
-        if (value.startsWith("р-")) {
-            cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.substring(2));
-        } else if (value.startsWith("р")) {
-            System.out.println(value.substring(1));
-            cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value.substring(1));
+        //Ниже 4 строчки сделать короче
+        char symbol = '@';
+        if (stringList.stream().anyMatch(value::startsWith)) {
+            symbol = stringList.stream().filter(value::startsWith).findAny().get().charAt(0);
+        }
 
+        //Ниже 8 строчек сделать короче
+        List<Cabinet> cabinetList;
+        if (value.startsWith(String.format("%s-", symbol))) {
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(2), symbol);
+        } else if (value.startsWith(String.format("%s", symbol))) {
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(1), symbol);
         } else {
-            cabinetList = cabinetRepository.findCabinetsByNumberContainingIgnoreCase(value);
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWith(value);
         }
 
         return cabinetList.stream()
@@ -89,9 +97,12 @@ public class CabinetFactory {
                 )
                         .collect(Collectors.toList());
 
+        listDescription.removeIf(Objects::isNull); //Удаляем все null элементы
+
         return new CampusAndCabinetResponse.CabinetInfo(
                 cabinet.getNumber(),
                 cabinet.getDescription(),
+                listDescription,
                 coordinatesList.stream()
                         .map(list -> createFloorsInfo(list, listDescription))
                         .collect(Collectors.toList())
@@ -103,7 +114,6 @@ public class CabinetFactory {
         CountFloors++;
         return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(
                 CountFloors,
-                listDescription.get(CountFloors - 1),
                 coordinatesList.stream()
                         .map(this::createPoint)
                         .collect(Collectors.toList())
@@ -140,9 +150,8 @@ public class CabinetFactory {
         Collections.reverse(listPath); //меняем местами координаты
 
         List<List<Coordinates>> listXCoordinates = new LinkedList<>();
-        for (int i = 0; i < cabinet.getFloor(); i++) {
+        for (int i = 0; i < cabinet.getFloor(); i++)
             listXCoordinates.add(new LinkedList<>());
-        }
 
         listPath.forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath)); //заполняем координаты по этажам
 

@@ -19,12 +19,12 @@ public class CampusAndCabinetResponse {
     public static class CabinetInfo {
         String numberCabinet;
         String descriptionCabinet;
+        List<String> steps;
         List<FloorsInfo> floors;
 
         @Value
         public static class FloorsInfo {
             Integer floor;
-            String descriptionStep;
             List<Point> vectors;
         }
 
