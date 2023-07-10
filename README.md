@@ -37,12 +37,13 @@ public class CampusAndCabinetResponse {
     @Value
     public static class CabinetInfo {
         String numberCabinet;
-
+        String descriptionCabinet;
         List<FloorsInfo> floors;
 
         @Value
         public static class FloorsInfo {
             Integer floor;
+            String descriptionStep;
             List<Point> vectors;
         }
 
