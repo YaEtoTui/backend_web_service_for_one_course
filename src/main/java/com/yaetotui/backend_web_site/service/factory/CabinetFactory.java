@@ -51,12 +51,12 @@ public class CabinetFactory {
 
         //Ниже 8 строчек сделать короче
         List<Cabinet> cabinetList;
-        if (value.startsWith(String.format("%s-", symbol))) {
+        if (value.startsWith(String.format("%s-", symbol)) && isInteger(value.substring(2))) {
             cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(2), symbol);
-        } else if (value.startsWith(String.format("%s", symbol))) {
+        } else if (value.startsWith(String.format("%s", symbol)) && isInteger(value.substring(1))) {
             cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(1), symbol);
         } else {
-            cabinetList = cabinetRepository.findCabinetsByNumberStartingWith(value);
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithOrDescriptionContainingIgnoreCase(value, value);
         }
 
         return cabinetList.stream()
@@ -64,10 +64,35 @@ public class CabinetFactory {
                 .toList();
     }
 
+    private static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public CabinetResponse createCabinetResponse(Cabinet cabinet) {
         return new CabinetResponse(
                 cabinet.getId(),
-                String.format("%s-%s",cabinet.getCampus().getSymbol(), cabinet.getNumber().toLowerCase())
+                String.format("%s-%s",cabinet.getCampus().getSymbol(), cabinet.getNumber().toLowerCase()),
+                cabinet.getDescription()
         );
     }
 
@@ -90,6 +115,7 @@ public class CabinetFactory {
 
     private CampusAndCabinetResponse.CabinetInfo createCabinetInfo(Cabinet cabinet, List<List<Coordinates>> coordinatesList) {
         CountFloors = 0; //init global variable
+
         List<String> listDescription = Stream.of(
                 cabinet.getDescriptionStep1(),
                 cabinet.getDescriptionStep2(),
@@ -104,14 +130,21 @@ public class CabinetFactory {
                 cabinet.getDescription(),
                 listDescription,
                 coordinatesList.stream()
-                        .map(list -> createFloorsInfo(list, listDescription))
+                        .map(list -> createFloorsInfo(cabinet, list))
                         .collect(Collectors.toList())
         );
     }
 
-    private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(List<Coordinates> coordinatesList,
-                                                                             List<String> listDescription) {
-        CountFloors++;
+    private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(Cabinet cabinet, List<Coordinates> coordinatesList) {
+
+        if (CountFloors == 1 && cabinet.getFloor() == 3) {
+            CountFloors += 2;
+        }
+        else {
+            CountFloors++;
+
+        }
+
         return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(
                 CountFloors,
                 coordinatesList.stream()
@@ -153,7 +186,15 @@ public class CabinetFactory {
         for (int i = 0; i < cabinet.getFloor(); i++)
             listXCoordinates.add(new LinkedList<>());
 
-        listPath.forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath)); //заполняем координаты по этажам
+        if ((cabinet.getFloor() == 1) || (cabinet.getFloor() == 2)) {
+            listPath.forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath)); //заполняем координаты по этажам
+        } else {
+            listPath.stream()
+                    .filter(coordinatesPath -> coordinatesPath.getFloor() != 2)
+                    .forEach(coordinatesPath -> listXCoordinates.get(coordinatesPath.getFloor() - 1).add(coordinatesPath));
+        }
+
+        listXCoordinates.removeIf(List::isEmpty);
 
         return listXCoordinates;
     }

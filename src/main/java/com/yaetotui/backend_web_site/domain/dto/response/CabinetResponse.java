@@ -6,4 +6,5 @@ import lombok.Value;
 public class CabinetResponse {
     Long id;
     String numberCabinet;
+    String description;
 }
