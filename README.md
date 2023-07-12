@@ -57,5 +57,6 @@ public class CampusAndCabinetResponse {
 public class CabinetResponse {
     Long id;
     String numberCabinet;
-
+    String description;
+}
 ```
