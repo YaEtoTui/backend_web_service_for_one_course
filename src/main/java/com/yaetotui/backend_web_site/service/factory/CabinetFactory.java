@@ -136,7 +136,7 @@ public class CabinetFactory {
             CountFloors = cabinet.getFloor();
         }
         else {
-            CountFloors = 1;
+            CountFloors++;
         }
 
         return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(
