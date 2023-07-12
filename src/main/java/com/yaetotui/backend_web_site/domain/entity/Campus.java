@@ -16,7 +16,7 @@ public class Campus {
     @Id
     String id;
     String name;
-    char symbol;
+    String symbol;
     float x;
     float y;
     String description;

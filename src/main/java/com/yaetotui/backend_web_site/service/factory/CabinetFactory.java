@@ -36,50 +36,43 @@ public class CabinetFactory {
     CabinetRepository cabinetRepository;
     CoordinatesRepository coordinatesRepository;
 
-    List<String> stringList = Stream
+    List<String> symbolsList = Stream
             .of("р", "м", "ф", "гук")
             .toList();
 
-    /* Ищем список кабинетов, которые содержат входящий элемент*/
+    /* Ищем список кабинетов, которые содержат входящий элемент. При этом мы его фильтруем. Например, 'р', 'р-' и само значение */
 
     public List<CabinetResponse> createListCabinetResponse(String value) {
-        //Ниже 4 строчки сделать короче
-        char symbol = '@';
-        if (stringList.stream().anyMatch(value::startsWith)) {
-            symbol = stringList.stream().filter(value::startsWith).findAny().get().charAt(0);
-        }
 
-        //Ниже 8 строчек сделать короче
-        List<Cabinet> cabinetList;
-        if (value.startsWith(String.format("%s-", symbol)) && isInteger(value.substring(2))) {
-            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(2), symbol);
-        } else if (value.startsWith(String.format("%s", symbol)) && isInteger(value.substring(1))) {
-            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(1), symbol);
-        } else {
-            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithOrDescriptionContainingIgnoreCase(value, value);
-        }
+        String symbol = (symbolsList.stream().anyMatch(value::startsWith)) ?
+                symbolsList.stream().filter(value::startsWith).findAny().get() : null;
 
-        return cabinetList.stream()
+        return findListCabinetsByValue(value, symbol).stream()
                 .map(this::createCabinetResponse)
                 .toList();
     }
 
+    /* Поисковик. Находим сам список, приэтом фильтруем данные, чтобы получить более точный ответ */
+
+    private List<Cabinet> findListCabinetsByValue(String value, String symbol) {
+
+        List<Cabinet> cabinetList;
+        if (value.startsWith(String.format("%s-", symbol)) && isInteger(value.substring(symbol.length() + 1))) {
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(symbol.length() + 1), symbol);
+        } else if (value.startsWith(String.format("%s", symbol)) && isInteger(value.substring(symbol.length()))) {
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(value.substring(symbol.length()), symbol);
+        } else {
+            cabinetList = cabinetRepository.findCabinetsByNumberStartingWithOrDescriptionContainingIgnoreCase(value, value);
+        }
+
+        return cabinetList;
+    }
+
+    /* Проверяем на то что строка состоит полностью из цифр */
+
     private static boolean isInteger(String str) {
-        if (str == null) {
-            return false;
-        }
-        int length = str.length();
-        if (length == 0) {
-            return false;
-        }
-        int i = 0;
-        if (str.charAt(0) == '-') {
-            if (length == 1) {
-                return false;
-            }
-            i = 1;
-        }
-        for (; i < length; i++) {
+
+        for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             if (c < '0' || c > '9') {
                 return false;
@@ -87,6 +80,8 @@ public class CabinetFactory {
         }
         return true;
     }
+
+    /* Создаем объект CabinetResponse */
 
     public CabinetResponse createCabinetResponse(Cabinet cabinet) {
         return new CabinetResponse(
@@ -137,12 +132,11 @@ public class CabinetFactory {
 
     private CampusAndCabinetResponse.CabinetInfo.FloorsInfo createFloorsInfo(Cabinet cabinet, List<Coordinates> coordinatesList) {
 
-        if (CountFloors == 1 && cabinet.getFloor() == 3) {
-            CountFloors += 2;
+        if (CountFloors == 1 && (cabinet.getFloor() >= 3 || cabinet.getFloor() <= 0)) {
+            CountFloors = cabinet.getFloor();
         }
         else {
-            CountFloors++;
-
+            CountFloors = 1;
         }
 
         return new CampusAndCabinetResponse.CabinetInfo.FloorsInfo(

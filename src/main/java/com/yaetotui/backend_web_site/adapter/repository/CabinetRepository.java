@@ -10,7 +10,5 @@ import java.util.List;
 public interface CabinetRepository extends JpaRepository<Cabinet, Long> {
     List<Cabinet> findCabinetsByNumberStartingWithOrDescriptionContainingIgnoreCase(String number, String description);
 
-    List<Cabinet> findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(String value, char symbol);
-
-    Cabinet findCabinetByNumber(String numberCabinet);
+    List<Cabinet> findCabinetsByNumberStartingWithIgnoreCaseAndCampusSymbol(String value, String symbol);
 }

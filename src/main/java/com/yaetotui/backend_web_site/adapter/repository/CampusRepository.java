@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CampusRepository extends JpaRepository<Campus, String> {
-    Campus findByName(String nameCampus);
 }

@@ -17,7 +17,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="symbol" type="char">
+            <column name="symbol" type="varchar">
                 <constraints nullable="false"/>
             </column>
 
